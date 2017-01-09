@@ -26,4 +26,4 @@
 (def default-db
   {:name "Open Cards"
    :route {:page :home}
-   :cards (gen/generate (s/gen ::cards))})
+   :cards (apply concat (gen/sample (s/gen ::cards)))})
