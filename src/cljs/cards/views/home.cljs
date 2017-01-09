@@ -24,6 +24,7 @@
    :top "auto"
    :bottom 0
    :left "auto"
+   :text-align "center"
    :position "fixed"})
 
 (defn add-deck-dialog
