@@ -10,4 +10,4 @@
 (re-frame/reg-sub
  :active-panel
  (fn [db _]
-   (get-in db [:route :current-page])))
+   (get-in db [:route :page])))

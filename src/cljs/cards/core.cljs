@@ -6,7 +6,7 @@
             [cards.events]
             [cards.subs]
             [cards.routes :as routes]
-            [cards.views :as views]
+            [cards.views.home :as views]
             [cards.config :as config]))
 
 (defn dev-setup []

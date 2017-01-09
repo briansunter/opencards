@@ -12,13 +12,14 @@
   [match]
   (let [current-page (:handler match)
         route-params (:route-params match)]
-    (re-frame/dispatch [:set-route {:current-page current-page
+    (re-frame/dispatch [:set-route {:page current-page
                                     :route-params route-params}])))
 
 (def routes
   ["/" {"" :home
         "decks" {"" :decks
-                 "/add" :add-deck}}
+                 "/add" :add-deck}
+        "cards" :cards}
    true :not-found])
 
 (def history (pushy/pushy set-page! (partial bidi/match-route routes)))

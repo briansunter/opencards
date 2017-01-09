@@ -1,4 +1,4 @@
-(ns cards.views
+(ns cards.views.home
   (:require
    [cljsjs.material-ui]
    [cljs-react-material-ui.core :refer [get-mui-theme color]]
@@ -13,7 +13,8 @@
      [:div {:key i}
       [ui/list-item
        {:primary-text (str "Brian" i)
-        :href "/decks/add"}]
+        :href "/decks/add"
+        }]
       [ui/divider]])])
 
 (def floating-add-button-style
@@ -39,11 +40,10 @@
                 :open adding}
      [ui/text-field {:hint-text "Deck Name"}]
      [ui/text-field {:hint-text "Deck Description (optional)"}]]
-    [ui/floating-action-button {:icon-class-name "content-add"
+    [ui/floating-action-button {:iconClassName "content-add"
                                 :style floating-add-button-style
                                 :href "/decks/add"}]
     [deck-list]]])
-
 
 (defn home-panel []
   (let [name (re-frame/subscribe [:name])]
