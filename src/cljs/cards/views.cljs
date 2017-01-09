@@ -8,37 +8,42 @@
    [reagent.core :as r]))
 
 (defn deck-list []
-  (fn []
-    [ui/selectable-list
-     (for [i (range 1000)]
-       (r/as-element
-        [:div
-         [ui/list-item
-          {:value i
-           :key i
-           :href "/decks"
-           :primary-text (str "Foo " i)}]
-         [ui/divider]]))]))
+  [ui/selectable-list
+   (for [i (range 200)]
+     [:div {:key i}
+      [ui/list-item
+       {:primary-text (str "Brian" i)
+        :href "/decks/add"}]
+      [ui/divider]])])
+
+(def floating-add-button-style
+  {:margin 0
+   :top "auto"
+   :right 20
+   :bottom 20
+   :left "auto"
+   :position "fixed"})
 
 (defn home-page [adding]
-  (let [open (r/atom adding)]
-    (fn []
-      [ui/mui-theme-provider
-       {:mui-theme (get-mui-theme
-                    {:palette {:text-color (color :green600)}})}
-       [:div
-        [ui/app-bar {:title "My Decks"
-                     :style {:position "fixed"}
-                     :icon-element-right
-                     (r/as-element [ui/icon-button
-                                    (ic/content-add)])
-                     :on-right-icon-button-touch-tap #(swap! open complement)}]
-        [ui/dialog {:title "Add Deck"
-                    :actions [[ui/flat-button]]
-                    :open @open}
-         [ui/text-field {:hint-text "Deck Name"}]
-         [ui/text-field {:hint-text "Deck Description (optional)"}]]
-        [deck-list]]])))
+  [ui/mui-theme-provider
+   {:mui-theme (get-mui-theme
+                {:palette {:text-color (color :green600)}})}
+   [:div
+    [ui/app-bar {:title "My Decks"
+                 :style {:position "fixed"}}]
+    [ui/dialog {:title "Add Deck"
+                :actions (r/as-component [:div
+                                          [ui/flat-button {:label "Cancel"
+                                                           :href "/decks"}]
+                                          [ui/flat-button {:label "Add Deck"}]])
+                :open adding}
+     [ui/text-field {:hint-text "Deck Name"}]
+     [ui/text-field {:hint-text "Deck Description (optional)"}]]
+    [ui/floating-action-button {:icon-class-name "content-add"
+                                :style floating-add-button-style
+                                :href "/decks/add"}]
+    [deck-list]]])
+
 
 (defn home-panel []
   (let [name (re-frame/subscribe [:name])]
@@ -53,8 +58,9 @@
 
 (defn- panels [panel-name]
   (case panel-name
-    :home [home-page]
-    :decks [home-page]
+    :home [home-page false]
+    :decks [home-page false]
+    :add-deck [home-page true]
     [:div]))
 
 (defn show-panel [panel-name]

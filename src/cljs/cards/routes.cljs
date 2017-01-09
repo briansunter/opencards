@@ -17,7 +17,8 @@
 
 (def routes
   ["/" {"" :home
-        "decks" :decks}
+        "decks" {"" :decks
+                 "/add" :add-deck}}
    true :not-found])
 
 (def history (pushy/pushy set-page! (partial bidi/match-route routes)))
