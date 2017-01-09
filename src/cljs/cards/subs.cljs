@@ -11,3 +11,18 @@
  :active-panel
  (fn [db _]
    (get-in db [:route :page])))
+
+(re-frame/reg-sub
+ :all-cards
+ (fn [db _]
+   (:cards db)))
+
+(re-frame/reg-sub
+ :tab-bar-index
+ (fn [db _]
+   (let [page (get-in db [:route :page])]
+     (case page
+       :cards 0
+       :add-card 1
+       :home 2
+       ))))

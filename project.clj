@@ -1,6 +1,7 @@
 (defproject cards "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.9.0-alpha4"]
                  [org.clojure/clojurescript "1.9.293"]
+                 [org.clojure/test.check "0.9.0"]
                  [reagent "0.6.0" :exclusions [org.clojure/tools.reader cljsjs/react cljsjs/react-dom ]]
                  [cljs-react-material-ui "0.2.34"]
                  [re-frame "0.9.0"]
