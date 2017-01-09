@@ -8,7 +8,7 @@
    [re-frame.core :as re-frame]
    [reagent.core :as r]))
 
-(defn deck-list []
+(defn card-list []
   (let [cards (re-frame/subscribe [:all-cards])]
     (fn []
       [ui/selectable-list
@@ -16,8 +16,7 @@
          [:div {:key (hash c)}
           [ui/list-item
            {:primary-text (get-in c [:front :value])
-            :href "/cards/add"
-            }]
+            :href "/cards/add"}]
           [ui/divider]])])))
 
 (def floating-add-button-style
@@ -75,7 +74,7 @@
 (defn- panels [panel-name]
   (case panel-name
     :home home-panel
-    :cards deck-list
+    :cards card-list
     :add-card add-card-view
     [:div]))
 
