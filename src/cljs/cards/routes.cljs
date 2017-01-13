@@ -8,6 +8,10 @@
    [re-frame.core :as re-frame]
    [bidi.bidi :as bidi]))
 
+(defn path-for-page
+  [page]
+  (bidi/path-for routes page))
+
 (defn set-page!
   [match]
   (let [current-page (:handler match)

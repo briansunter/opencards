@@ -24,7 +24,6 @@
                    :multi-line true
                    :style {:font-size 26}}]])
 
-
 (defn create-card-button
   [label on-click]
   [ui/paper {:z-depth 2
