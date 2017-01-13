@@ -1,5 +1,6 @@
 (ns cards.views.home
   (:require
+   [cards.routes :refer [path-for-page]]
    [cljsjs.material-ui]
    [cljs-react-material-ui.core :refer [get-mui-theme color]]
    [cljs-react-material-ui.reagent :as ui]
@@ -16,7 +17,7 @@
          [:div {:key (hash c)}
           [ui/list-item
            {:primary-text (get-in c [:front :content])
-            :href "/cards/add"}]
+            :href (path-for-page :add-card)}]
           [ui/divider]])])))
 
 (def floating-add-button-style
@@ -26,18 +27,6 @@
    :left "auto"
    :text-align "center"
    :position "fixed"})
-
-(defn add-deck-dialog
-  ""
-  [adding]
-  [ui/dialog {:title "Add Deck"
-              :actions (r/as-component [:div
-                                        [ui/flat-button {:label "Cancel"
-                                                         :href "/decks"}]
-                                        [ui/flat-button {:label "Add Deck"}]])
-              :open adding}
-   [ui/text-field {:hint-text "Deck Name"}]
-   [ui/text-field {:hint-text "Deck Description (optional)"}]])
 
 (defn navigation [content]
   (let [tab-bar-index (re-frame/subscribe [:tab-bar-index])]
@@ -52,20 +41,20 @@
                                 :style floating-add-button-style}
           [ui/bottom-navigation-item {:label "Feed"
                                       :icon (ic/av-featured-play-list)
-                                      :href "/cards"}]
+                                      :href (path-for-page :cards)}]
           [ui/bottom-navigation-item {:label "Add"
-                                      :href "/cards/add"
+                                      :href (path-for-page :add-card)
                                       :icon (ic/content-add)}]
 
           [ui/bottom-navigation-item {:label "Home"
-                                      :href "/"
+                                      :href (path-for-page :home)
                                       :icon (ic/action-home)}]]]]])))
 
 (defn home-panel []
   (let [name (re-frame/subscribe [:name])]
     (fn []
       [:div (str "Hello from " @name ". This is the Home Page.")
-       [:div [:a {:href "/about"} "go to About Page"]]])))
+       [:div [:a {:href (path-for-page :cards)} "go to Cards Page"]]])))
 
 (defn about-panel []
   (fn []
