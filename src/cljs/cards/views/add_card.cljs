@@ -10,41 +10,50 @@
 
 (def chip-input (r/adapt-react-class js/MaterialUIChipInput))
 
+(def paper-props {:z-depth 3
+                  :style {:margin 10
+                          :padding 10}})
+
 (defn face-view
   [name hint]
   [ui/paper
-   {:z-depth 2
-    :style {
-            :margin 10
-            :padding 10
-            }}
-   [ui/text-field {:name name :floating-label-text hint
+   paper-props
+   [ui/text-field {:name name
+                   :floating-label-text hint
                    :full-width true
                    :multi-line true
-                   :style {:font-size 28}}]])
+                   :style {:font-size 26}}]])
 
-(def stub-languages
-  ["spanish" "english" "chinese" "japanese" "hindi" "italian" "german" "russian" "arabic" "integerated chinese 1"])
+
+(defn create-card-button
+  [label on-click]
+  [ui/paper {:z-depth 2
+             :style {:margin 10
+                     :margin-top 20}}
+   [ui/raised-button {:primary true
+                      :fullWidth true}
+    [:a {:style {:color "white"
+                 :padding 30
+                 :margin 40
+                 :font-size 26}}
+     label]]])
+
+(defn card-tags-input
+  [tags input-update]
+  [ui/paper paper-props
+   [chip-input {:dataSource (clj->js tags)
+                :hintText "Enter tags to describe the card here"
+                :onUpdateInput input-update
+                :openOnFocus true
+                :fullWidth true
+                :style {:margin 10}}]])
 
 (defn add-card-view
   []
-  [:div
-   [face-view "front" "Front"]
-   [face-view "back" "Back"]
-   [ui/paper {:z-depth 3
-              :style {:margin 10
-                      :margin-top 40}}
-    [chip-input {:dataSource (clj->js stub-languages)
-                 :fullWidth true
-                 :style {:margin 10}
-                 }]]
-   [ui/paper {:z-depth 3
-              :style {:margin 10
-                      :margin-top 40}}
-    [ui/raised-button {:primary true
-                       :full-width true
-                       }[:a {:style {:color "white"
-                                     :padding 30
-                                     :margin 40
-                                     :font-size 28
-                                     }}"Create Card"]]]])
+  (let [tags (re-frame/subscribe [:matching-tags])]
+    (fn []
+      [:div
+       [face-view "front" "Front"]
+       [face-view "back" "Back"]
+       [card-tags-input @tags #(re-frame/dispatch [:search-for-tag %])]
+       [create-card-button "Create Card" #(re-frame/dispatch [:create-card])]])))

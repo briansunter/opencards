@@ -24,3 +24,9 @@
  cards-interceptors
  (fn [db [_ route]]
    (assoc db :route route)))
+
+(re-frame/reg-event-db
+ :search-for-tag
+ cards-interceptors
+ (fn [db [_ tag-query]]
+   (assoc-in db [:add-card-page :tag-query] tag-query)))

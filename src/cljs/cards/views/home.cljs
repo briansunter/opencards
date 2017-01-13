@@ -15,7 +15,7 @@
        (for [c @cards]
          [:div {:key (hash c)}
           [ui/list-item
-           {:primary-text (get-in c [:front :value])
+           {:primary-text (get-in c [:front :content])
             :href "/cards/add"}]
           [ui/divider]])])))
 

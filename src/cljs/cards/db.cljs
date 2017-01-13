@@ -6,24 +6,23 @@
             [bidi.bidi :as bidi]))
 
 (def pages (set (map :handler (bidi/route-seq ["" [routes/routes]]))))
-;; (def pages #{:add-card})
-(s/def ::name string?)
 
+(s/def ::tags (s/coll-of ::tag))
+(s/def ::content (s/and string? (complement clojure.string/blank?)))
+(s/def ::face (s/keys :req-un [::content ::tags]))
+(s/def ::front ::face)
+(s/def ::back ::face)
+(s/def ::card (s/keys :req-un [::front ::back ::tags]))
+(s/def ::cards (s/coll-of ::card))
+
+(s/def ::name string?)
 (s/def ::page pages)
 (s/def ::route (s/keys :req-un [::page]))
 
-(s/def ::value (s/and string? (complement clojure.string/blank?)))
-(s/def ::tag keyword?)
-(s/def ::tags (s/coll-of ::tag))
-(s/def ::face (s/keys :req-un [::value ::tags]))
-(s/def ::front ::face)
-(s/def ::back ::face)
-(s/def ::card (s/keys :req-un [::front ::back]))
-(s/def ::cards (s/coll-of ::card))
+(s/def ::tag string?)
+(s/def ::tag-query string?)
+(s/def ::matching-tags ::tags)
+(s/def ::add-card-page (s/keys :req-un [::tag-query ::matching-tags]))
+(s/def ::db (s/keys :req-un [::name ::cards ::add-card-page ::route ::tags] :opt [::route]))
 
-(s/def ::db (s/keys :req-un [::name ::cards] :opt [::route]))
-
-(def default-db
-  {:name "Open Cards"
-   :route {:page :home}
-   :cards (apply concat (gen/sample (s/gen ::cards)))})
+(def default-db (gen/generate (s/gen ::db)))

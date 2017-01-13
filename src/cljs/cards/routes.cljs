@@ -32,5 +32,3 @@
     :path-exists? (fn [path]
                     (boolean (bidi/match-route routes path)))})
   (accountant/dispatch-current!))
-
-
