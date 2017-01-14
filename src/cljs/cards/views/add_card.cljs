@@ -15,21 +15,25 @@
                           :padding 10}})
 
 (defn face-view
-  [name hint]
+  [name hint value on-change]
   [ui/paper
    paper-props
    [ui/text-field {:name name
+                   :value value
                    :floating-label-text hint
+                   :on-change on-change
                    :full-width true
                    :multi-line true
                    :style {:font-size 26}}]])
 
 (defn create-card-button
-  [label on-click]
+  [label enabled? on-click]
   [ui/paper {:z-depth 2
              :style {:margin 10
                      :margin-top 20}}
    [ui/raised-button {:primary true
+                      :disabled (not enabled?)
+                      :on-click on-click
                       :fullWidth true}
     [:a {:style {:color "white"
                  :padding 30
@@ -38,9 +42,10 @@
      label]]])
 
 (defn card-tags-input
-  [tags input-update]
+  [tags matching-tags input-update]
   [ui/paper paper-props
-   [chip-input {:dataSource (clj->js tags)
+   [chip-input {:value (clj->js tags)
+                :dataSource (clj->js matching-tags)
                 :hintText "Enter tags to describe the card here"
                 :onUpdateInput input-update
                 :openOnFocus true
@@ -49,10 +54,15 @@
 
 (defn add-card-view
   []
-  (let [tags (re-frame/subscribe [:matching-tags])]
+  (let 
+        [front-text (re-frame/subscribe [:add-card-front-text])
+        back-text (re-frame/subscribe [:add-card-back-text])
+        matching-tags (re-frame/subscribe [:matching-tags])
+         tags (re-frame/subscribe [:add-card-tags])
+         create-button-enabled (re-frame/subscribe [:add-card-create-button-enabled])]
     (fn []
       [:div
-       [face-view "front" "Front"]
-       [face-view "back" "Back"]
-       [card-tags-input @tags #(re-frame/dispatch [:search-for-tag %])]
-       [create-card-button "Create Card" #(re-frame/dispatch [:create-card])]])))
+       [face-view "front" "Front" @front-text #(re-frame/dispatch [:update-add-card-front-text (-> % .-target .-value)])]
+       [face-view "back" "Back" @back-text #(re-frame/dispatch [:update-add-card-back-text (-> % .-target .-value)])]
+       [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %])]
+       [create-card-button "Create Card" @create-button-enabled #(re-frame/dispatch [:create-card @front-text @back-text @matching-tags])]])))

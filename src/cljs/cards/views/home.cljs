@@ -14,9 +14,9 @@
     (fn []
       [ui/selectable-list
        (for [c @cards]
-         [:div {:key (hash c)}
+         [:div {:key (:id c)}
           [ui/list-item
-           {:primary-text (get-in c [:front :content])
+           {:primary-text (:front c)
             :href (path-for-page :add-card)}]
           [ui/divider]])])))
 

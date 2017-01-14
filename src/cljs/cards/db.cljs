@@ -3,26 +3,32 @@
             [clojure.test.check.generators]
             [cljs.spec.impl.gen :as gen]
             [cards.routes :as routes]
+            [cards.utils :refer [not-blank?]]
             [bidi.bidi :as bidi]))
 
 (def pages (set (map :handler (bidi/route-seq ["" [routes/routes]]))))
 
+(s/def ::id (s/and string? not-blank?))
+
+(s/def ::content (s/and string? not-blank?))
+(s/def ::front ::content)
+(s/def ::back ::content)
+(s/def ::tag (s/and string? not-blank?))
 (s/def ::tags (s/coll-of ::tag))
-(s/def ::content (s/and string? (complement clojure.string/blank?)))
-(s/def ::face (s/keys :req-un [::content ::tags]))
-(s/def ::front ::face)
-(s/def ::back ::face)
-(s/def ::card (s/keys :req-un [::front ::back ::tags]))
-(s/def ::cards (s/coll-of ::card))
+(s/def ::card (s/keys :req-un [::id ::front ::back ::tags]))
+
 
 (s/def ::name string?)
 (s/def ::page pages)
 (s/def ::route (s/keys :req-un [::page]))
 
-(s/def ::tag string?)
 (s/def ::tag-query string?)
 (s/def ::matching-tags ::tags)
-(s/def ::add-card-page (s/keys :req-un [::tag-query ::matching-tags]))
+(s/def ::front-text string?)
+(s/def ::back-text string?)
+(s/def ::add-card-page (s/keys :req-un [::tags ::tag-query ::matching-tags ::front-text ::back-text]))
+
+(s/def ::cards (s/coll-of ::card))
 (s/def ::db (s/keys :req-un [::name ::cards ::add-card-page ::route ::tags] :opt [::route]))
 
 (def default-db (gen/generate (s/gen ::db)))
