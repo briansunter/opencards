@@ -20,7 +20,7 @@
             :href (path-for-page :add-card)}]
           [ui/divider]])])))
 
-(def floating-add-button-style
+(def tab-bar-style
   {:margin 0
    :top "auto"
    :bottom 0
@@ -35,10 +35,11 @@
        {:mui-theme (get-mui-theme
                     {:palette {:text-color (color :green600)}})}
        [:div
+        {:style {:margin-bottom 100}}
         [content]
-        [ui/paper {:z-depth 1}
+        [ui/paper
          [ui/bottom-navigation {:selected-index @tab-bar-index
-                                :style floating-add-button-style}
+                                :style tab-bar-style}
           [ui/bottom-navigation-item {:label "Feed"
                                       :icon (ic/av-featured-play-list)
                                       :href (path-for-page :cards)}]
@@ -59,7 +60,7 @@
 (defn about-panel []
   (fn []
     [:div "This is the About Page."
-     [:div [:a {:href "/"} "go to Home Page"]]]))
+     [:div [:a {:href (path-for-page :home)} "go to Home Page"]]]))
 
 (defn- panels [panel-name]
   (case panel-name

@@ -5,6 +5,7 @@
    [cljs-react-material-ui.core :refer [get-mui-theme color]]
    [cljs-react-material-ui.reagent :as ui]
    [cljs-react-material-ui.icons :as ic]
+   [cljs.spec :as s]
    [re-frame.core :as re-frame]
    [reagent.core :as r]))
 
@@ -14,6 +15,7 @@
                   :style {:margin 10
                           :padding 10}})
 
+(s/def ::name string?)
 (defn face-view
   [name hint value on-change]
   [ui/paper
@@ -42,7 +44,7 @@
      label]]])
 
 (defn card-tags-input
-  [tags matching-tags input-update]
+  [tags matching-tags input-update add-chip delete-chip]
   [ui/paper paper-props
    [chip-input {:value (clj->js tags)
                 :dataSource (clj->js matching-tags)
@@ -54,15 +56,14 @@
 
 (defn add-card-view
   []
-  (let 
-        [front-text (re-frame/subscribe [:add-card-front-text])
-        back-text (re-frame/subscribe [:add-card-back-text])
-        matching-tags (re-frame/subscribe [:matching-tags])
+  (let  [front-text (re-frame/subscribe [:add-card-front-text])
+         back-text (re-frame/subscribe [:add-card-back-text])
+         matching-tags (re-frame/subscribe [:matching-tags])
          tags (re-frame/subscribe [:add-card-tags])
          create-button-enabled (re-frame/subscribe [:add-card-create-button-enabled])]
     (fn []
       [:div
        [face-view "front" "Front" @front-text #(re-frame/dispatch [:update-add-card-front-text (-> % .-target .-value)])]
        [face-view "back" "Back" @back-text #(re-frame/dispatch [:update-add-card-back-text (-> % .-target .-value)])]
-       [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %])]
+       [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %]) #(re-frame/dispatch [:])]
        [create-card-button "Create Card" @create-button-enabled #(re-frame/dispatch [:create-card @front-text @back-text @matching-tags])]])))

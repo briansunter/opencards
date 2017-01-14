@@ -48,13 +48,24 @@
  (fn [db [_ text]]
    (assoc-in db [:add-card-page :back-text] text)))
 
+(re-frame/reg-event-db
+ :add-card/add-chip
+ cards-interceptors
+ (fn [db [_ tag]]
+   (update-in db [:add-card-page :tags] #(conj % tag))))
+
+(re-frame/reg-event-db
+ :add-card/delete-chip
+ cards-interceptors
+ (fn [db [_ tag]]
+   (update-in db [:add-card-page :tags] #(remove (partial = tag) % ))))
+
 (re-frame/reg-event-fx
  :create-card
  [cards-interceptors (re-frame/inject-cofx :uuid)]
  (fn [cofx event]
    (let [[_ front back tags] event
-         db (:db cofx)
-         new-uuid (:uuid cofx)]
+         {:keys [db uuid]} cofx]
      {:db (-> (update db :cards #(conj % {:id new-uuid :front front :back back :tags tags}))
               (assoc-in [:add-card-page :front-text] "")
               (assoc-in [:add-card-page :back-text] ""))})))
