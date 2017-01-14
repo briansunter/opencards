@@ -15,7 +15,6 @@
                   :style {:margin 10
                           :padding 10}})
 
-(s/def ::name string?)
 (defn face-view
   [name hint value on-change]
   [ui/paper
@@ -56,7 +55,7 @@
                 :fullWidth true
                 :style {:margin 10}}]])
 
-(defn add-card-view
+(defn add-card-panel
   []
   (let  [front-text (re-frame/subscribe [:add-card-front-text])
          back-text (re-frame/subscribe [:add-card-back-text])

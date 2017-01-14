@@ -66,6 +66,6 @@
  (fn [cofx event]
    (let [[_ front back tags] event
          {:keys [db uuid]} cofx]
-     {:db (-> (update db :cards #(conj % {:id new-uuid :front front :back back :tags tags}))
+     {:db (-> (update db :cards #(conj % {:id uuid :front front :back back :tags tags}))
               (assoc-in [:add-card-page :front-text] "")
               (assoc-in [:add-card-page :back-text] ""))})))
