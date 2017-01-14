@@ -50,6 +50,8 @@
                 :dataSource (clj->js matching-tags)
                 :hintText "Enter tags to describe the card here"
                 :onUpdateInput input-update
+                :onRequestAdd add-chip
+                :onRequestDelete delete-chip
                 :openOnFocus true
                 :fullWidth true
                 :style {:margin 10}}]])
@@ -65,5 +67,5 @@
       [:div
        [face-view "front" "Front" @front-text #(re-frame/dispatch [:update-add-card-front-text (-> % .-target .-value)])]
        [face-view "back" "Back" @back-text #(re-frame/dispatch [:update-add-card-back-text (-> % .-target .-value)])]
-       [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %]) #(re-frame/dispatch [:])]
+       [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %]) #(re-frame/dispatch [:add-card/add-chip  %]) #(re-frame/dispatch [:add-card/delete-chip %])]
        [create-card-button "Create Card" @create-button-enabled #(re-frame/dispatch [:create-card @front-text @back-text @matching-tags])]])))
