@@ -8,6 +8,12 @@
    [re-frame.core :as re-frame]
    [bidi.bidi :as bidi]))
 
+(def routes
+  ["/" {"" :home
+        "cards" {"" :cards
+                 "/add" :add-card}}
+   true :not-found])
+
 (defn path-for-page
   [page]
   (bidi/path-for routes page))
@@ -18,12 +24,6 @@
         route-params (:route-params match)]
     (re-frame/dispatch [:set-route {:page current-page
                                     :route-params route-params}])))
-
-(def routes
-  ["/" {"" :home
-        "cards" {"" :cards
-                 "/add" :add-card}}
-   true :not-found])
 
 (def history (pushy/pushy set-page! (partial bidi/match-route routes)))
 

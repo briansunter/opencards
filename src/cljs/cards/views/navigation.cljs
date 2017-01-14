@@ -22,10 +22,9 @@
       [ui/mui-theme-provider
        {:mui-theme (get-mui-theme
                     {:palette {:text-color (color :green600)}})}
-       [:div
-        {:style {:margin-bottom 100}}
+       [:div {:style {:margin-bottom 100}}
         [content]
-        [ui/paper {}
+        [ui/paper
          [ui/bottom-navigation {:selected-index @tab-bar-index
                                 :style tab-bar-style}
           [ui/bottom-navigation-item {:label "Feed"
