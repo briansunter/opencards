@@ -4,6 +4,7 @@
                  [org.clojure/test.check "0.9.0"]
                  [reagent "0.6.0" :exclusions [org.clojure/tools.reader cljsjs/react cljsjs/react-dom ]]
                  [cljs-react-material-ui "0.2.34"]
+                 [cljsjs/react-flexbox-grid "0.10.2-1"]
                  [cljsjs/material-ui-chip-input "0.11.2-0"]
                  [re-frame "0.9.0"]
                  [re-frisk "0.3.2"]
