@@ -37,13 +37,13 @@
    (assoc coeffects :uuid (str (random-uuid)))))
 
 (re-frame/reg-event-db
- :update-add-card-front-text
+ :add-card/update-front-text
  cards-interceptors
  (fn [db [_ text]]
    (assoc-in db [:add-card-page :front-text] text)))
 
 (re-frame/reg-event-db
- :update-add-card-back-text
+ :add-card/update-back-text
  cards-interceptors
  (fn [db [_ text]]
    (assoc-in db [:add-card-page :back-text] text)))
@@ -61,7 +61,7 @@
    (update-in db [:add-card-page :tags] #(remove (partial = tag) % ))))
 
 (re-frame/reg-event-fx
- :create-card
+ :add-card/create-card
  [cards-interceptors (re-frame/inject-cofx :uuid)]
  (fn [cofx event]
    (let [[_ front back tags] event
