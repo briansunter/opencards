@@ -10,7 +10,6 @@
                  [re-frisk "0.3.2"]
                  [venantius/accountant "0.1.7"]
                  [bidi "2.0.14"]
-                 [kibu/pushy "0.3.6"]
                  [ring/ring-defaults "0.2.1"]
                  [compojure "1.5.0"]
                  [yogthos/config "0.8"]
