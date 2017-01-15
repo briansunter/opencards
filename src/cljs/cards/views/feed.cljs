@@ -43,7 +43,8 @@
      {:children (r/as-element [:div {:style {:display "flex"
                                              :flex-direction "row"
                                              :flex-wrap "wrap"
-                                             :max-width "100%"}}(map (fn [t] [ui/chip {:style {:margin 5}} t]) tags)])}]
+                                             :max-width "100%"}}
+                               (map (fn [t] [ui/chip {:style {:margin 5}} t]) tags)])}]
     [ui/card-actions [ui/raised-button {:primary true
                                         :label "Follow Card"
                                         :style {:margin 10}}]]]])
