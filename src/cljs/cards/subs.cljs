@@ -60,6 +60,6 @@
  (fn [db _]
    (let [page (get-in db [:route :page])]
      (case page
-       :cards 0
+       :feed 0
        :add-card 1
        :home 2))))

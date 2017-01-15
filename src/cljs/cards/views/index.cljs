@@ -9,7 +9,7 @@
 (defn- panels [panel-name]
   (case panel-name
     :home home-panel
-    :cards feed-panel
+    :feed feed-panel
     :add-card add-card-panel
     [:div [:a "not found"]]))
 

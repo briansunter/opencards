@@ -29,7 +29,7 @@
                                 :style tab-bar-style}
           [ui/bottom-navigation-item {:label "Feed"
                                       :icon (ic/av-featured-play-list)
-                                      :href (path-for-page :cards)}]
+                                      :href (path-for-page :feed)}]
           [ui/bottom-navigation-item {:label "Add"
                                       :href (path-for-page :add-card)
                                       :icon (ic/content-add)}]
