@@ -14,7 +14,7 @@
     [ui/drawer {:open @app-drawer-open
                 :docked false
                 :z-depth 2
-                :on-request-change (fn [o _] (re-frame/dispatch [:set-nav-drawer-open o]))}
+                :on-request-change #(re-frame/dispatch [:set-nav-drawer-open %])}
      [ui/menu
       [ui/divider]
       [ui/menu-item {:primary-text "Feed"
@@ -30,24 +30,48 @@
                      :left-icon (ic/hardware-dock)}]
       [ui/divider]]]))
 
-(defn main-app-bar
+(defn right-app-bar-button-for-page
+  [page]
+  (case page
+    :add-deck [ui/flat-button {:label "save"
+                               :style {:color "white"
+                                       :margin-top 5}}]
+    [ui/icon-button]))
+
+(defn app-bar-close-button
   []
+  [ui/icon-button {:href (path-for-page :decks)} [ic/navigation-close {:style {:fill "white"}}]])
+
+(defn app-bar-menu-button
+  []
+  [ui/icon-button {:on-click #(re-frame/dispatch [:toggle-nav-drawer])}
+   [ic/navigation-menu {:style {:fill "white"}}]])
+
+(defn left-app-bar-button-for-page
+  [page]
+  (case page
+    :add-deck [app-bar-close-button]
+    [app-bar-menu-button]))
+
+(defn main-app-bar
+  [page]
   [ui/app-bar {:title "Open Cards"
                :z-depth 2
-               :on-left-icon-button-touch-tap #(re-frame/dispatch [:toggle-nav-drawer])
+               :icon-element-left (r/as-element [left-app-bar-button-for-page page])
+               :icon-element-right (r/as-element [right-app-bar-button-for-page page])
                :style {:position "fixed"
                        :top 0
                        :left 0}}
    [main-app-drawer]])
 
 (defn navigation [content]
-  (let []
+  (let [page (re-frame/subscribe [:active-panel])]
     (fn [content]
       [ui/mui-theme-provider
        {:mui-theme (get-mui-theme
                     {:palette {:text-color (color :green600)}})}
        [:div {:style {:margin-top 100}}
-        [main-app-bar]
+        [main-app-bar @page]
         [content]]])))
 
 (def tab-bar-style
