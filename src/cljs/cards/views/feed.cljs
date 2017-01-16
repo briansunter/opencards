@@ -12,12 +12,13 @@
 (defn suggested-card-feed-item
   [front-content back-content tags]
   [:div
-   [ui/divider {:style {:height 30}}]
    [ui/card
-    {:container-style {:padding 10}}
-    [ui/card-header {:title "Suggested Card" :style {:font-size 30}}]
+    [ui/card-header {:title "Suggested Card"
+                     :style {:font-size 30
+                             :width "100%"}}]
     [:div {:style {:word-break "break-all"
                    :display "flex"
+                   :justify-content "center"
                    :flex-direction "row"}}
      [ui/paper
       {:z-depth 2
@@ -31,12 +32,13 @@
       [:p front-content]]
      [ui/paper
       {:z-depth 2
-       :style {:display "flex"
+       :style {
+               :width "50%"
+               :display "flex"
                :justify-content "center"
                :align-items "center"
                :margin-left 10
                :min-height 100
-               :width "50%"
                :padding 20}}
       [:p back-content]]]
     [ui/card-text
@@ -47,7 +49,9 @@
                                (map (fn [t] [ui/chip {:style {:margin 5}} t]) tags)])}]
     [ui/card-actions [ui/raised-button {:primary true
                                         :label "Follow Card"
-                                        :style {:margin 10}}]]]])
+                                        :style {:margin 10}}]]]
+   [ui/divider {:style {:height 30}}]
+   ])
 
 (defn feed-panel []
   (let [cards (re-frame/subscribe [:all-cards])]

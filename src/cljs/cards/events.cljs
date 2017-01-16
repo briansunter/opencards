@@ -23,7 +23,7 @@
  :set-route
  cards-interceptors
  (fn [db [_ route]]
-   (assoc db :route route)))
+   (assoc-in db [:navigation :route] route)))
 
 (re-frame/reg-event-db
  :search-for-tag
@@ -59,6 +59,16 @@
  cards-interceptors
  (fn [db [_ tag]]
    (update-in db [:add-card-page :tags] #(remove (partial = tag) % ))))
+
+(re-frame/reg-event-db
+ :set-nav-drawer-open
+ (fn [db [_ open]]
+   (assoc-in db [:navigation :drawer-open] open)))
+
+(re-frame/reg-event-db
+ :toggle-nav-drawer
+ (fn [db _]
+ (update-in db [:navigation :drawer-open] not)))
 
 (re-frame/reg-event-fx
  :add-card/create-card

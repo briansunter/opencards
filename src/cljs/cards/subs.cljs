@@ -11,7 +11,7 @@
 (re-frame/reg-sub
  :active-panel
  (fn [db _]
-   (get-in db [:route :page])))
+   (get-in db [:navigation :route :page])))
 
 (re-frame/reg-sub
  :all-cards
@@ -58,8 +58,13 @@
 (re-frame/reg-sub
  :tab-bar-index
  (fn [db _]
-   (let [page (get-in db [:route :page])]
+   (let [page (get-in db [:navigation :route :page])]
      (case page
        :feed 0
        :add-card 1
        :home 2))))
+
+(re-frame/reg-sub
+ :app-drawer-open
+ (fn [db _]
+   (get-in db [:navigation :drawer-open])))

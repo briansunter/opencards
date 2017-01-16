@@ -29,4 +29,5 @@
                    (let [match (bidi/match-route routes path)]
                      (set-page! match)))
     :path-exists? (fn [path]
-                    (boolean (bidi/match-route routes path)))}))
+                    (boolean (bidi/match-route routes path)))})
+  (accountant/dispatch-current!))
