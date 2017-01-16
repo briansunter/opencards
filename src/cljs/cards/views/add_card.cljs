@@ -62,9 +62,8 @@
          matching-tags (re-frame/subscribe [:matching-tags])
          tags (re-frame/subscribe [:add-card-tags])
          create-button-enabled (re-frame/subscribe [:add-card-create-button-enabled])]
-    (fn []
-      [:div
-       [face-view "front" "Front" @front-text #(re-frame/dispatch [:add-card/update-front-text (-> % .-target .-value)])]
-       [face-view "back" "Back" @back-text #(re-frame/dispatch [:add-card/update-back-text (-> % .-target .-value)])]
-       [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %]) #(re-frame/dispatch [:add-card/add-chip  %]) #(re-frame/dispatch [:add-card/delete-chip %])]
-       [create-card-button "Create Card" @create-button-enabled #(re-frame/dispatch [:add-card/create-card @front-text @back-text @matching-tags])]])))
+    [:div
+     [face-view "front" "Front" @front-text #(re-frame/dispatch [:add-card/update-front-text (-> % .-target .-value)])]
+     [face-view "back" "Back" @back-text #(re-frame/dispatch [:add-card/update-back-text (-> % .-target .-value)])]
+     [card-tags-input @tags @matching-tags #(re-frame/dispatch [:search-for-tag %]) #(re-frame/dispatch [:add-card/add-chip  %]) #(re-frame/dispatch [:add-card/delete-chip %])]
+     [create-card-button "Create Card" @create-button-enabled #(re-frame/dispatch [:add-card/create-card @front-text @back-text @matching-tags])]]))

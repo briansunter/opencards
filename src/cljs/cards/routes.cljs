@@ -10,7 +10,9 @@
 (def routes
   ["/" {"" :home
         "feed"  :feed
-        "cards" {"/add" :add-card}}
+        "cards" {"/add" :add-card}
+        "decks" {"" :decks
+                 "/add" :add-deck}}
    true :not-found])
 
 (defn path-for-page

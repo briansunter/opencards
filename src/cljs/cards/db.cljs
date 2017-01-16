@@ -18,7 +18,7 @@
 (s/def ::tags (s/coll-of ::tag))
 (s/def ::card (s/keys :req-un [::id ::front ::back ::tags]))
 
-(s/def ::name string?)
+(s/def ::name ::non-empty-string)
 (s/def ::page pages)
 (s/def ::route (s/keys :req-un [::page]))
 
@@ -34,11 +34,13 @@
 
 (s/def ::cards (s/coll-of ::card))
 
-(s/def ::user-name ::non-empty-string)
 (s/def ::followed-cards (s/coll-of ::id))
-(s/def ::user (s/keys :req-un [::user-name] :opt-un [::followed-cards]))
+(s/def ::user (s/keys :req-un [::name]))
 
-(s/def ::db (s/keys :req-un [::name ::cards ::add-card-page ::navigation ::tags ::user]))
+(s/def ::deck (s/keys :req-un [::name]))
+(s/def ::decks (s/coll-of ::deck))
+
+(s/def ::db (s/keys :req-un [::name ::cards ::decks ::add-card-page ::navigation ::tags ::user]))
 
 (def db {:navigation {:route {:page :home}
                       :drawer-open true}})

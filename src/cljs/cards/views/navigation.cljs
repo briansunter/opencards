@@ -11,24 +11,24 @@
 (defn main-app-drawer
   []
   (let [app-drawer-open (re-frame/subscribe [:app-drawer-open])]
-    (fn []
-      [ui/drawer {:open @app-drawer-open
-                  :docked false
-                  :z-depth 2
-                  :on-request-change (fn [o _] (re-frame/dispatch [:set-nav-drawer-open o]))}
-       [ui/menu
-        [ui/divider]
-        [ui/menu-item {:primary-text "Feed"
-                       :href (path-for-page :feed)
-                       :left-icon (ic/communication-rss-feed)}]
-        [ui/divider]
-        [ui/menu-item {:primary-text "Cards"
-                       :href (path-for-page :add-card)
-                       :left-icon (ic/hardware-sim-card)}]
-        [ui/divider]
-        [ui/menu-item {:primary-text "Decks"
-                       :left-icon (ic/hardware-dock)}]
-        [ui/divider]]])))
+    [ui/drawer {:open @app-drawer-open
+                :docked false
+                :z-depth 2
+                :on-request-change (fn [o _] (re-frame/dispatch [:set-nav-drawer-open o]))}
+     [ui/menu
+      [ui/divider]
+      [ui/menu-item {:primary-text "Feed"
+                     :href (path-for-page :feed)
+                     :left-icon (ic/communication-rss-feed)}]
+      [ui/divider]
+      [ui/menu-item {:primary-text "Cards"
+                     :href (path-for-page :add-card)
+                     :left-icon (ic/hardware-sim-card)}]
+      [ui/divider]
+      [ui/menu-item {:primary-text "Decks"
+                     :href (path-for-page :decks)
+                     :left-icon (ic/hardware-dock)}]
+      [ui/divider]]]))
 
 (defn main-app-bar
   []

@@ -65,6 +65,11 @@
        :home 2))))
 
 (re-frame/reg-sub
+ :decks
+ (fn [db _]
+   (:decks db)))
+
+(re-frame/reg-sub
  :app-drawer-open
  (fn [db _]
    (get-in db [:navigation :drawer-open])))
