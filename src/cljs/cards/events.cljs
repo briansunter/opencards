@@ -1,7 +1,7 @@
 (ns cards.events
-    (:require [re-frame.core :as re-frame]
-              [cards.db :as db]
-              [cljs.spec :as s]))
+  (:require [re-frame.core :as re-frame]
+            [cards.db :as db]
+            [cljs.spec :as s]))
 
 (defn check-and-throw
   "throw an exception if db doesn't match the spec"
@@ -23,7 +23,8 @@
  :set-route
  cards-interceptors
  (fn [db [_ route]]
-   (assoc-in db [:navigation :route] route)))
+   (-> (assoc-in db [:navigation :route] route)
+       (assoc-in [:navigation :drawer-open] false))))
 
 (re-frame/reg-event-db
  :search-for-tag
@@ -68,7 +69,7 @@
 (re-frame/reg-event-db
  :toggle-nav-drawer
  (fn [db _]
- (update-in db [:navigation :drawer-open] not)))
+   (update-in db [:navigation :drawer-open] not)))
 
 (re-frame/reg-event-fx
  :add-card/create-card
