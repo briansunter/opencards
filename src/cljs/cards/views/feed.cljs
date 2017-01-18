@@ -61,4 +61,3 @@
        (for [c @cards]
          [suggested-card-feed-item (:front c) (:back c) (:tags c)])])))
 
-

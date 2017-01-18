@@ -30,7 +30,7 @@
  :search-for-tag
  cards-interceptors
  (fn [db [_ tag-query]]
-   (assoc-in db [:add-card-page :tag-query] tag-query)))
+   (assoc-in db [:scenes :add-card-page :tag-query] tag-query)))
 
 (re-frame/reg-cofx
  :uuid
@@ -41,25 +41,25 @@
  :add-card/update-front-text
  cards-interceptors
  (fn [db [_ text]]
-   (assoc-in db [:add-card-page :front-text] text)))
+   (assoc-in db [:scenes :add-card-page :front-text] text)))
 
 (re-frame/reg-event-db
  :add-card/update-back-text
  cards-interceptors
  (fn [db [_ text]]
-   (assoc-in db [:add-card-page :back-text] text)))
+   (assoc-in db [:scenes :add-card-page :back-text] text)))
 
 (re-frame/reg-event-db
  :add-card/add-chip
  cards-interceptors
  (fn [db [_ tag]]
-   (update-in db [:add-card-page :tags] #(conj % tag))))
+   (update-in db [:scenes :add-card-page :tags] #(conj % tag))))
 
 (re-frame/reg-event-db
  :add-card/delete-chip
  cards-interceptors
  (fn [db [_ tag]]
-   (update-in db [:add-card-page :tags] #(remove (partial = tag) % ))))
+   (update-in db [:scenes :add-card-page :tags] #(remove (partial = tag) % ))))
 
 (re-frame/reg-event-db
  :set-nav-drawer-open
@@ -78,5 +78,25 @@
    (let [[_ front back tags] event
          {:keys [db uuid]} cofx]
      {:db (-> (update db :cards #(conj % {:id uuid :front front :back back :tags tags}))
-              (assoc-in [:add-card-page :front-text] "")
-              (assoc-in [:add-card-page :back-text] ""))})))
+              (assoc-in [:scenes :add-card-page :front-text] "")
+              (assoc-in [:scenes :add-card-page :back-text] ""))})))
+
+(re-frame/reg-event-fx
+ :add-deck
+ [cards-interceptors (re-frame/inject-cofx :uuid)]
+ (fn [cofx event]
+   (let [[_ title description] event
+         {:keys [db uuid]} cofx]
+     {:db (update db :decks #(conj % {:id uuid :title title :description description}))})))
+
+(re-frame/reg-event-db
+ :add-deck-update-title
+ [cards-interceptors]
+ (fn [db [_ title]]
+   (assoc-in db [:scenes :add-deck-page :add-deck-title] title)))
+
+(re-frame/reg-event-db
+ :add-deck-update-description
+ [cards-interceptors]
+ (fn [db [_ description]]
+   (assoc-in db [:scenes :add-deck-page :add-deck-description] description)))

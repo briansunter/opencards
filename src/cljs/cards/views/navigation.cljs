@@ -30,12 +30,21 @@
                      :left-icon (ic/hardware-dock)}]
       [ui/divider]]]))
 
+(defn add-deck-button
+  []
+  (let [enabled (re-frame/subscribe [:add-deck-button-enabled])
+        add-deck-title (re-frame/subscribe [:add-deck-title])
+        add-deck-description (re-frame/subscribe [:add-deck-description])]
+    [ui/flat-button {:label "save"
+                     :on-click #(re-frame/dispatch [:add-deck @add-deck-title @add-deck-description])
+                     :disabled (not @enabled)
+                     :style {:color "white"
+                             :margin-top 5}}]))
+
 (defn right-app-bar-button-for-page
   [page]
   (case page
-    :add-deck [ui/flat-button {:label "save"
-                               :style {:color "white"
-                                       :margin-top 5}}]
+    :add-deck [add-deck-button]
     [ui/icon-button]))
 
 (defn app-bar-close-button

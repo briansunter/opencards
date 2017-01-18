@@ -5,8 +5,7 @@
             [cljs-react-material-ui.reagent :as ui]
             [cljs-react-material-ui.icons :as ic]
             [reagent.core :as r]
-            [cards.routes :refer [path-for-page]]
-            ))
+            [cards.routes :refer [path-for-page]]))
 
 (defn decks-panel
   []
@@ -24,7 +23,6 @@
      [ui/list
       (for [d @decks]
         [:div
-         [ui/list-item {:key (hash (:name d))
-                        :primary-text (:name d)}]
+         [ui/list-item {:key (hash (:title d))
+                        :primary-text (:title d)}]
          [ui/divider]])]]))
-

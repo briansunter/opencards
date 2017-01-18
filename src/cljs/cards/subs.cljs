@@ -21,39 +21,39 @@
 (re-frame/reg-sub
  :add-card-tags
  (fn [db _]
-   (get-in db [:add-card-page :tags])))
+   (get-in db [:scenes :add-card-page :tags])))
 
 (re-frame/reg-sub
  :add-card-create-button-enabled
  (fn [db _]
-   (let [front (get-in db [:add-card-page :front-text])
-         back (get-in db [:add-card-page :back-text])
-         tags (get-in db [:add-card-page :tags])]
+   (let [front (get-in db [:scenes :add-card-page :front-text])
+         back (get-in db [:scenes :add-card-page :back-text])
+         tags (get-in db [:scenes :add-card-page :tags])]
      (and (not-blank? front) (not-blank? back) (not-empty tags)))))
 
 (re-frame/reg-sub
  :tag-query
  (fn [db _]
-   (get-in db [:add-card-page :tag-query])))
+   (get-in db [:scenes :add-card-page :tag-query])))
 
 
 (re-frame/reg-sub
  :matching-tags
  (fn [db _]
    (let [all-tags (:tags db)
-         tag-query (get-in db [:add-card-page :tag-query])
+         tag-query (get-in db [:scenes :add-card-page :tag-query])
          matching-tags (filter #(matches-search? % tag-query) all-tags)]
      matching-tags)))
 
 (re-frame/reg-sub
  :add-card-front-text
  (fn [db _]
-   (get-in db [:add-card-page :front-text])))
+   (get-in db [:scenes :add-card-page :front-text])))
 
 (re-frame/reg-sub
  :add-card-back-text
  (fn [db _]
-   (get-in db [:add-card-page :back-text])))
+   (get-in db [:scenes :add-card-page :back-text])))
 
 (re-frame/reg-sub
  :tab-bar-index
@@ -73,3 +73,19 @@
  :app-drawer-open
  (fn [db _]
    (get-in db [:navigation :drawer-open])))
+
+(re-frame/reg-sub
+ :add-deck-button-enabled
+ (fn [db _]
+   (let [{:keys [add-deck-title add-deck-description]} (get-in db [:scenes :add-deck-page])]
+     (not-any? clojure.string/blank? [add-deck-title add-deck-description]))))
+
+(re-frame/reg-sub
+ :add-deck-title
+ (fn [db _]
+   (get-in db [:scenes :add-deck-page :add-deck-title])))
+
+(re-frame/reg-sub
+ :add-deck-description
+ (fn [db _]
+   (get-in db [:scenes :add-deck-page :add-deck-description])))

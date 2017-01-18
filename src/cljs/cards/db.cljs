@@ -37,10 +37,19 @@
 (s/def ::followed-cards (s/coll-of ::id))
 (s/def ::user (s/keys :req-un [::name]))
 
-(s/def ::deck (s/keys :req-un [::name]))
+(s/def ::title ::non-empty-string)
+(s/def ::description ::non-empty-string)
+(s/def ::deck (s/keys :req-un [::title ::description]))
 (s/def ::decks (s/coll-of ::deck))
 
-(s/def ::db (s/keys :req-un [::name ::cards ::decks ::add-card-page ::navigation ::tags ::user]))
+(s/def ::form-input-text string?)
+
+(s/def ::add-deck-title ::form-input-text)
+(s/def ::add-deck-description ::form-input-text)
+
+(s/def ::add-deck-page (s/keys :req-un [::add-deck-title ::add-deck-description]))
+(s/def ::scenes (s/keys :req-un [::add-card-page ::add-deck-page]))
+(s/def ::db (s/keys :req-un [::name ::cards ::decks ::scenes ::navigation ::tags ::user]))
 
 (def db {:navigation {:route {:page :home}
                       :drawer-open true}})
