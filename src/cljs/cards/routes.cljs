@@ -10,7 +10,8 @@
 (def routes
   ["/" {"" :home
         "feed"  :feed
-        "cards" {"/add" :add-card}
+        "cards" {"" :cards
+                 "/add" :add-card}
         "decks" {"" :decks
                  "/add" :add-deck}}
    true :not-found])

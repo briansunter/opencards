@@ -22,7 +22,7 @@
                      :left-icon (ic/communication-rss-feed)}]
       [ui/divider]
       [ui/menu-item {:primary-text "Cards"
-                     :href (path-for-page :add-card)
+                     :href (path-for-page :cards)
                      :left-icon (ic/hardware-sim-card)}]
       [ui/divider]
       [ui/menu-item {:primary-text "Decks"
@@ -64,14 +64,15 @@
 
 (defn main-app-bar
   [page]
-  [ui/app-bar {:title "Open Cards"
-               :z-depth 2
-               :icon-element-left (r/as-element [left-app-bar-button-for-page page])
-               :icon-element-right (r/as-element [right-app-bar-button-for-page page])
-               :style {:position "fixed"
-                       :top 0
-                       :left 0}}
-   [main-app-drawer]])
+  (let [title (re-frame/subscribe [:active-panel-title])]
+    [ui/app-bar {:title @title
+                 :z-depth 2
+                 :icon-element-left (r/as-element [left-app-bar-button-for-page page])
+                 :icon-element-right (r/as-element [right-app-bar-button-for-page page])
+                 :style {:position "fixed"
+                         :top 0
+                         :left 0}}
+     [main-app-drawer]]))
 
 (defn navigation [content]
   (let [page (re-frame/subscribe [:active-panel])]

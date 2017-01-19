@@ -6,6 +6,7 @@
    [cards.views.navigation :refer [navigation]]
    [cards.views.decks :refer [decks-panel]]
    [cards.views.add-deck :refer [add-deck-panel]]
+   [cards.views.cards :refer [cards-panel]]
    [re-frame.core :as re-frame]))
 
 (defn- panels [panel-name]
@@ -14,6 +15,7 @@
     :feed feed-panel
     :decks decks-panel
     :add-deck add-deck-panel
+    :cards cards-panel
     :add-card add-card-panel
     [:div [:a "not found"]]))
 

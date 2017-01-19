@@ -14,6 +14,20 @@
    (get-in db [:navigation :route :page])))
 
 (re-frame/reg-sub
+ :active-panel-title
+ (fn [db _]
+   (let [page (get-in db [:navigation :route :page])
+         default-title (:name db)]
+     (case page
+       :feed "Feed"
+       :home "Home"
+       :decks "My Decks"
+       :cards "My Cards"
+       :add-card "Add Card"
+       :add-deck "Add Deck"
+       default-title))))
+
+(re-frame/reg-sub
  :all-cards
  (fn [db _]
    (:cards db)))
