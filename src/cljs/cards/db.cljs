@@ -30,7 +30,7 @@
 (s/def ::matching-tags ::tags)
 (s/def ::front-text string?)
 (s/def ::back-text string?)
-(s/def ::add-card-page (s/keys :req-un [::tags ::tag-query ::matching-tags ::front-text ::back-text]))
+(s/def ::add-card-page (s/keys :req-un [::front-text ::back-text]))
 
 (s/def ::cards (s/coll-of ::card))
 
@@ -47,7 +47,7 @@
 (s/def ::add-deck-title ::form-input-text)
 (s/def ::add-deck-description ::form-input-text)
 
-(s/def ::add-deck-page (s/keys :req-un [::add-deck-title ::add-deck-description]))
+(s/def ::add-deck-page (s/keys :req-un [::add-deck-title ::add-deck-description ::tags ::tag-query ::matching-tags]))
 (s/def ::scenes (s/keys :req-un [::add-card-page ::add-deck-page]))
 (s/def ::db (s/keys :req-un [::name ::cards ::decks ::scenes ::navigation ::tags ::user]))
 

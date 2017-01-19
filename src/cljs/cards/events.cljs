@@ -50,16 +50,16 @@
    (assoc-in db [:scenes :add-card-page :back-text] text)))
 
 (re-frame/reg-event-db
- :add-card/add-chip
+ :add-deck/add-chip
  cards-interceptors
  (fn [db [_ tag]]
-   (update-in db [:scenes :add-card-page :tags] #(conj % tag))))
+   (update-in db [:scenes :add-deck-page :tags] #(conj % tag))))
 
 (re-frame/reg-event-db
- :add-card/delete-chip
+ :add-deck/delete-chip
  cards-interceptors
  (fn [db [_ tag]]
-   (update-in db [:scenes :add-card-page :tags] #(remove (partial = tag) % ))))
+   (update-in db [:scenes :add-deck-page :tags] #(remove (partial = tag) % ))))
 
 (re-frame/reg-event-db
  :set-nav-drawer-open
@@ -89,7 +89,8 @@
          {:keys [db uuid]} cofx]
      {:db (-> (update db :decks #(conj % {:id uuid :title title :description description}))
               (assoc-in [:scenes :add-deck-page :add-deck-description] "")
-              (assoc-in [:scenes :add-deck-page :add-deck-title] ""))})))
+              (assoc-in [:scenes :add-deck-page :add-deck-title] "")
+              (assoc-in [:scenes :add-deck-page :tags] []))})))
 
 (re-frame/reg-event-db
  :add-deck-update-title

@@ -41,15 +41,27 @@
                      :style {:color "white"
                              :margin-top 5}}]))
 
+(defn add-card-button
+  []
+  (let [enabled (re-frame/subscribe [:add-card-button-enabled])
+        add-card-front-text (re-frame/subscribe [:add-card-front-text])
+        add-card-back-text (re-frame/subscribe [:add-card-back-text])]
+    [ui/flat-button {:label "save"
+                     :on-click #(re-frame/dispatch [:add-card/create-card @add-card-front-text @add-card-back-text])
+                     :disabled (not @enabled)
+                     :style {:color "white"
+                             :margin-top 5}}]))
+
 (defn right-app-bar-button-for-page
   [page]
   (case page
     :add-deck [add-deck-button]
+    :add-card [add-card-button]
     [ui/icon-button]))
 
 (defn app-bar-close-button
-  []
-  [ui/icon-button {:href (path-for-page :decks)} [ic/navigation-close {:style {:fill "white"}}]])
+  [props]
+  [ui/icon-button props [ic/navigation-close {:style {:fill "white"}}]])
 
 (defn app-bar-menu-button
   []
@@ -59,7 +71,8 @@
 (defn left-app-bar-button-for-page
   [page]
   (case page
-    :add-deck [app-bar-close-button]
+    :add-deck [app-bar-close-button {:href (path-for-page :decks)}]
+    :add-card [app-bar-close-button {:href (path-for-page :cards)}]
     [app-bar-menu-button]))
 
 (defn main-app-bar

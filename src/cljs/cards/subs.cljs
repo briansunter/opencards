@@ -33,17 +33,16 @@
    (:cards db)))
 
 (re-frame/reg-sub
- :add-card-tags
+ :add-deck-tags
  (fn [db _]
-   (get-in db [:scenes :add-card-page :tags])))
+   (get-in db [:scenes :add-deck-page :tags])))
 
 (re-frame/reg-sub
- :add-card-create-button-enabled
+ :add-card-button-enabled
  (fn [db _]
    (let [front (get-in db [:scenes :add-card-page :front-text])
-         back (get-in db [:scenes :add-card-page :back-text])
-         tags (get-in db [:scenes :add-card-page :tags])]
-     (and (not-blank? front) (not-blank? back) (not-empty tags)))))
+         back (get-in db [:scenes :add-card-page :back-text])]
+     (and (not-blank? front) (not-blank? back)))))
 
 (re-frame/reg-sub
  :tag-query
