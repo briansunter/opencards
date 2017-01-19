@@ -75,9 +75,9 @@
  :add-card/create-card
  [cards-interceptors (re-frame/inject-cofx :uuid)]
  (fn [cofx event]
-   (let [[_ front back tags] event
+   (let [[_ front back] event
          {:keys [db uuid]} cofx]
-     {:db (-> (update db :cards #(conj % {:id uuid :front front :back back :tags tags}))
+     {:db (-> (update db :cards #(conj % {:id uuid :front front :back back :tags []}))
               (assoc-in [:scenes :add-card-page :front-text] "")
               (assoc-in [:scenes :add-card-page :back-text] ""))})))
 
