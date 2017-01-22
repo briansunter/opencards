@@ -49,7 +49,6 @@
  (fn [db _]
    (get-in db [:scenes :add-card-page :tag-query])))
 
-
 (re-frame/reg-sub
  :matching-tags
  (fn [db _]

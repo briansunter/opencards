@@ -4,7 +4,8 @@
             [cljs.spec.impl.gen :as gen]
             [cards.routes :as routes]
             [cards.utils :refer [not-blank?]]
-            [bidi.bidi :as bidi]))
+            [bidi.bidi :as bidi]
+            [bidi-tools.core]))
 
 (def pages (set (map :handler (bidi/route-seq ["" [routes/routes]]))))
 (s/def ::non-empty-string (s/and string? not-blank?))
@@ -54,4 +55,4 @@
 (def db {:navigation {:route {:page :home}
                       :drawer-open true}})
 
-(def default-db (merge (gen/generate (s/gen ::db))))
+(def default-db ( gen/generate (s/gen ::db)))

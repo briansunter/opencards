@@ -5,7 +5,8 @@
    [accountant.core :as accountant]
    [goog.history.EventType :as EventType]
    [re-frame.core :as re-frame]
-   [bidi.bidi :as bidi]))
+   [bidi.bidi :as bidi]
+   [bidi-tools.core :as bidi-tools]))
 
 (def routes
   ["/" {"" :home
@@ -25,11 +26,12 @@
   (let [current-page (:handler match)
         route-params (:route-params match)]
     (re-frame/dispatch [:set-route {:page current-page
-                                    :route-params route-params}])))
+                                    :route-params route-params
+                                    :query-params (:query-params match)}])))
 (defn app-routes []
   (accountant/configure-navigation!
    {:nav-handler (fn [path]
-                   (let [match (bidi/match-route routes path)]
+                   (let [match (bidi-tools/match-route-with-query routes path)]
                      (set-page! match)))
     :path-exists? (fn [path]
                     (boolean (bidi/match-route routes path)))})

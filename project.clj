@@ -10,10 +10,12 @@
                  [re-frisk "0.3.2"]
                  [venantius/accountant "0.1.7"]
                  [bidi "2.0.14"]
+                 [com.cemerick/url "0.1.1"]
                  [ring/ring-defaults "0.2.1"]
                  [compojure "1.5.0"]
                  [yogthos/config "0.8"]
-                 [ring "1.4.0"]]
+                 [ring "1.4.0"]
+                 [kibu/bidi-tools "0.3.0-SNAPSHOT"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 
