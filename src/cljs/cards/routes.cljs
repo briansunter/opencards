@@ -17,17 +17,37 @@
                  "/add" :add-deck}}
    true :not-found])
 
+
+(defn- url-encode
+  [string]
+  (some-> string str (js/encodeURIComponent) (.replace "+" "%20")))
+
+(defn- map->query
+  [m]
+  (some->> (seq m)
+           sort
+           (map (fn [[k v]]
+                  [(url-encode (name k))
+                   "="
+                   (url-encode (str v))]))
+           (interpose "&")
+           flatten
+           (apply str)))
+
 (defn path-for-page
-  [page]
-  (bidi/path-for routes page))
+  ([page]
+   (bidi/path-for routes page))
+  ([page params]
+   (str (bidi/path-for routes page) "?" (map->query params))))
 
 (defn set-page!
   [match]
   (let [current-page (:handler match)
-        route-params (:route-params match)]
+        route-params (:route-params match)
+        query-params (:query-params match)]
     (re-frame/dispatch [:set-route {:page current-page
                                     :route-params route-params
-                                    :query-params (:query-params match)}])))
+                                    :query-params query-params}])))
 (defn app-routes []
   (accountant/configure-navigation!
    {:nav-handler (fn [path]

@@ -9,7 +9,7 @@
 
 (defn cards-panel
   []
-  (let [cards (re-frame/subscribe [:all-cards])]
+  (let [cards (re-frame/subscribe [:filtered-cards])]
     [:div
      [ui/floating-action-button {:secondary true
                                  :href (path-for-page :add-card)

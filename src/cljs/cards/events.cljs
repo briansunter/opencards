@@ -87,7 +87,7 @@
  (fn [cofx event]
    (let [[_ title description] event
          {:keys [db uuid]} cofx]
-     {:db (-> (update db :decks #(conj % {:id uuid :title title :description description}))
+     {:db (-> (update db :decks #(conj % {:id uuid :title title :description description :card-ids #{}}))
               (assoc-in [:scenes :add-deck-page :add-deck-description] "")
               (assoc-in [:scenes :add-deck-page :add-deck-title] "")
               (assoc-in [:scenes :add-deck-page :tags] []))})))

@@ -24,5 +24,6 @@
       (for [d @decks]
         [:div
          [ui/list-item {:key (hash (:title d))
+                        :href (path-for-page :cards {:deck (:id d)})
                         :primary-text (:title d)}]
          [ui/divider]])]]))

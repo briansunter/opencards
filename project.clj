@@ -6,6 +6,8 @@
                  [cljs-react-material-ui "0.2.34"]
                  [cljsjs/react-flexbox-grid "0.10.2-1"]
                  [cljsjs/material-ui-chip-input "0.11.2-0"]
+                 [datascript "0.15.5"]
+                 [alandipert/intension "1.0.0"]
                  [re-frame "0.9.0"]
                  [re-frisk "0.3.2"]
                  [venantius/accountant "0.1.7"]
@@ -35,7 +37,6 @@
    {:dependencies [[binaryage/devtools "0.8.2"]
                    [figwheel-sidecar "0.5.7"]
                    [com.cemerick/piggieback "0.2.1"]]
-
     :plugins      [[lein-figwheel "0.5.7"]]
     }}
 
