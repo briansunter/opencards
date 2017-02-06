@@ -1,4 +1,4 @@
-(ns cards.views.add-deck
+(ns cards.scenes.add-deck.view
   (:require [re-frame.core :as re-frame]
             [cljsjs.material-ui]
             [cljsjs.material-ui-chip-input]

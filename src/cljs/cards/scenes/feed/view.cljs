@@ -1,4 +1,4 @@
-(ns cards.views.feed
+(ns cards.scenes.feed.view
   (:require
    [cards.routes :refer [path-for-page]]
    [cljsjs.material-ui]
@@ -60,4 +60,3 @@
       [ui/list
        (for [c @cards]
          [suggested-card-feed-item (:front c) (:back c) (:tags c)])])))
-

@@ -1,9 +1,10 @@
-(ns cards.views.decks
+(ns cards.scenes.all-decks.view
   (:require [re-frame.core :as re-frame]
             [cljsjs.material-ui]
             [cljs-react-material-ui.core :refer [get-mui-theme color]]
             [cljs-react-material-ui.reagent :as ui]
             [cljs-react-material-ui.icons :as ic]
+            [cards.views.navigation :refer [test-bar]]
             [reagent.core :as r]
             [cards.routes :refer [path-for-page]]))
 
@@ -11,6 +12,7 @@
   []
   (let [decks (re-frame/subscribe [:decks])]
     [:div
+     [test-bar]
      [ui/floating-action-button {:secondary true
                                  :href (path-for-page :add-deck)
                                  :style {:bottom 0

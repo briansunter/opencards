@@ -1,5 +1,8 @@
 (ns cards.views.navigation
   (:require
+   [cljs.spec :as s]
+   [clojure.test.check.generators]
+   [cljs.spec.impl.gen :as gen]
    [cards.routes :refer [path-for-page]]
    [cljsjs.material-ui]
    [cljs-react-material-ui.core :refer [get-mui-theme color]]
@@ -75,47 +78,29 @@
     :add-card [app-bar-close-button {:href (path-for-page :cards)}]
     [app-bar-menu-button]))
 
+(s/def ::title string?)
+(s/def ::left-element string?)
+(s/def ::right-element string?)
+
+(s/def ::app-bar-props (s/keys :req [::title ::left-element ::right-element]))
+(s/fdef main-app-bar
+   :args ::app-bar-props)
+
 (defn main-app-bar
-  [page]
-  (let [title (re-frame/subscribe [:active-panel-title])]
-    [ui/app-bar {:title @title
-                 :z-depth 2
-                 :icon-element-left (r/as-element [left-app-bar-button-for-page page])
-                 :icon-element-right (r/as-element [right-app-bar-button-for-page page])
-                 :style {:position "fixed"
-                         :top 0
-                         :left 0}}
-     [main-app-drawer]]))
+  [props]
+  [ui/app-bar {:title (::title props)
+               :z-depth 2
+               ;; :icon-element-left (r/as-element (::left-element props))
+               ;; :icon-element-right (r/as-element (::right-element props))
+               :style {:position "fixed"
+                       :top 0
+                       :left 0}}])
 
-(defn navigation [content]
-  (let [page (re-frame/subscribe [:active-panel])]
-    (fn [content]
-      [ui/mui-theme-provider
-       {:mui-theme (get-mui-theme
-                    {:palette {:text-color (color :green600)}})}
-       [:div {:style {:margin-top 100}}
-        [main-app-bar @page]
-        [content]]])))
+(def test-bar (main-app-bar (gen/generate (s/gen ::app-bar-props))))
 
-(def tab-bar-style
-  {:margin 0
-   :top "auto"
-   :bottom 0
-   :left "auto"
-   :text-align "center"
-   :position "fixed"})
-
-(defn bottom-navigation
-  [tab-bar-index]
-  [ui/paper
-   [ui/bottom-navigation {:selected-index tab-bar-index
-                          :style tab-bar-style}
-    [ui/bottom-navigation-item {:label "Feed"
-                                :icon (ic/av-featured-play-list)
-                                :href (path-for-page :feed)}]
-    [ui/bottom-navigation-item {:label "Add"
-                                :href (path-for-page :add-card)
-                                :icon (ic/content-add)}]
-    [ui/bottom-navigation-item {:label "Home"
-                                :href (path-for-page :home)
-                                :icon (ic/action-home)}]]])
+(defn theme [content]
+    [ui/mui-theme-provider
+     {:mui-theme (get-mui-theme
+                  {:palette {:text-color (color :green600)}})}
+     [:div {:style {:margin-top 100}}
+      [content]]])

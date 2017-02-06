@@ -1,12 +1,12 @@
 (ns cards.views.index
   (:require
-   [cards.views.home :refer [home-panel]]
-   [cards.views.add-card :refer [add-card-panel]]
-   [cards.views.feed :refer [feed-panel]]
-   [cards.views.navigation :refer [navigation]]
-   [cards.views.decks :refer [decks-panel]]
-   [cards.views.add-deck :refer [add-deck-panel]]
+   [cards.scenes.home.view :refer [home-panel]]
+   [cards.scenes.add-card.view :refer [add-card-panel]]
+   [cards.scenes.feed.view :refer [feed-panel]]
+   [cards.scenes.all-decks.view :refer [decks-panel]]
+   [cards.scenes.add-deck.view :refer [add-deck-panel]]
    [cards.views.cards :refer [cards-panel]]
+   [cards.views.navigation :refer [theme]]
    [re-frame.core :as re-frame]))
 
 (defn- panels [panel-name]
@@ -22,4 +22,4 @@
 
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]
-      [navigation (panels @active-panel)]))
+      [theme (panels @active-panel)]))

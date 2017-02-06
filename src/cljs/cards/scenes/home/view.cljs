@@ -1,4 +1,4 @@
-(ns cards.views.home
+(ns cards.scenes.home.view
   (:require
    [cards.routes :refer [path-for-page]]
    [cljsjs.material-ui]
@@ -10,4 +10,3 @@
   (let [name (re-frame/subscribe [:name])]
       [:div (str "Hello from " @name ". This is the Home Page.")
        [:div [:a {:href (path-for-page :cards)} "go to Cards Page"]]]))
-

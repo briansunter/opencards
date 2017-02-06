@@ -5,6 +5,12 @@
             [re-frisk.core :refer [enable-re-frisk!]]
             [cards.events]
             [cards.subs]
+            [cards.scenes.all-decks.subs]
+            [cards.scenes.add-deck.subs]
+            [cards.scenes.add-card.subs]
+            [cards.scenes.deck-cards.subs]
+            [cards.scenes.feed.subs]
+            [cards.scenes.home.subs]
             [cards.routes :as routes]
             [cards.views.index :as views]
             [cards.config :as config]))

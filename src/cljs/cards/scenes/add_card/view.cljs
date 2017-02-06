@@ -1,4 +1,4 @@
-(ns cards.views.add-card
+(ns cards.scenes.add-card.view
   (:require
    [cljsjs.material-ui]
    [cljs-react-material-ui.core :refer [get-mui-theme color]]
