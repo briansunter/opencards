@@ -21,12 +21,13 @@
 
 (s/def ::name ::non-empty-string)
 (s/def ::page pages)
+(s/def ::deck-id ::id)
 (s/def ::deck-filter-query-param (s/keys :req-un [::deck-id]))
 (s/def :nav/deck string?)
 
-(s/def ::query-params (s/keys :opt-un [:nav/deck]))
-
-(s/def ::route (s/keys :req-un [::page] :opt-un [::query-params]))
+(s/def ::query-params (s/nilable (s/keys :opt-un [:nav/deck])))
+(s/def ::route-params (s/nilable (s/keys :opt-un [::deck-id])))
+(s/def ::route (s/keys :req-un [::page] :opt-un [::query-params ::route-params]))
 
 (s/def ::drawer-open boolean?)
 

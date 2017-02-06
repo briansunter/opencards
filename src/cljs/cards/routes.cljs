@@ -13,7 +13,8 @@
         "feed"  :feed
         "cards" {"" :cards
                  "/add" :add-card}
-        "decks" {"" :decks
+        "decks/" {"" :decks
+                  [:deck-id "/cards"] :deck-cards
                  "/add" :add-deck}}
    true :not-found])
 
@@ -34,11 +35,8 @@
            flatten
            (apply str)))
 
-(defn path-for-page
-  ([page]
-   (bidi/path-for routes page))
-  ([page params]
-   (str (bidi/path-for routes page) "?" (map->query params))))
+(def path-for-page
+   (partial bidi/path-for routes))
 
 (defn set-page!
   [match]

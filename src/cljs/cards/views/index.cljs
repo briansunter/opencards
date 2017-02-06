@@ -16,6 +16,7 @@
     :decks decks-panel
     :add-deck add-deck-panel
     :cards cards-panel
+    :deck-cards cards-panel
     :add-card add-card-panel
     [:div [:a "not found"]]))
 
