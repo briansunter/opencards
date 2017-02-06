@@ -17,12 +17,16 @@
  :active-panel-title
  (fn [db _]
    (let [page (get-in db [:navigation :route :page])
+         current-deck-id (get-in db [:navigation :route :route-params :deck-id])
+         decks (:decks db)
+         current-deck (first (filter #(= current-deck-id (:id %)) decks))
          default-title (:name db)]
      (case page
        :feed "Feed"
        :home "Home"
        :decks "My Decks"
        :cards "My Cards"
+       :deck-cards (:title current-deck)
        :add-card "Add Card"
        :add-deck "Add Deck"
        default-title))))
@@ -36,7 +40,8 @@
  :filtered-cards
  (fn [db _]
    (let [{:keys [cards decks]} db
-         current-deck-id (get-in db [:navigation :route :query-params :deck])
+         current-deck-id-query (get-in db [:navigation :route :query-params :deck])
+         current-deck-id (get-in db [:navigation :route :route-params :deck-id])
          current-deck (first (filter #(= current-deck-id (:id %)) decks))
          card-ids (set (:card-ids current-deck))
          deck-cards (filter #(card-ids (:id %)) cards)]
