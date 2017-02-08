@@ -1,5 +1,6 @@
 (ns cards.scenes.add-deck.subs
-  (:require [re-frame.core :as re-frame]))
+  (:require [re-frame.core :as re-frame]
+            [cards.utils :refer  [matches-search?]]))
 
 (re-frame/reg-sub
  :add-deck-button-enabled

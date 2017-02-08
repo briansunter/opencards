@@ -96,11 +96,14 @@
                        :top 0
                        :left 0}}])
 
-(def test-bar (main-app-bar (gen/generate (s/gen ::app-bar-props))))
+(defn test-bar []
+  (main-app-bar (gen/generate (s/gen ::app-bar-props))))
 
-(defn theme [content]
+(defn theme
+  [content & {:keys [navigation]}]
     [ui/mui-theme-provider
      {:mui-theme (get-mui-theme
                   {:palette {:text-color (color :green600)}})}
      [:div {:style {:margin-top 100}}
-      [content]]])
+      [content]
+      [test-bar]]])

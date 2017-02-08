@@ -4,3 +4,10 @@
 /resources/public/js/compiled
 out
 .nrepl-port
+/s3_website.yml
+/resources/default-db.edn
+/pom.xml
+/flashcards-bsun-io.confetti.edn
+/cards-bsun-io.confetti.edn
+/card-bsun-io.confetti.edn
+/.lein-repl-history

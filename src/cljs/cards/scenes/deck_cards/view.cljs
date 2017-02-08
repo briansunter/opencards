@@ -1,4 +1,4 @@
-(ns cards.views.cards
+(ns cards.scenes.deck-cards.view
   (:require [re-frame.core :as re-frame]
             [cljsjs.material-ui]
             [cljs-react-material-ui.core :refer [get-mui-theme color]]

@@ -5,8 +5,8 @@
    [cards.scenes.feed.view :refer [feed-panel]]
    [cards.scenes.all-decks.view :refer [decks-panel]]
    [cards.scenes.add-deck.view :refer [add-deck-panel]]
-   [cards.views.cards :refer [cards-panel]]
-   [cards.views.navigation :refer [theme]]
+   [cards.scenes.deck-cards.view :refer [cards-panel]]
+   [cards.views.navigation :refer [theme test-bar]]
    [re-frame.core :as re-frame]))
 
 (defn- panels [panel-name]
@@ -22,4 +22,6 @@
 
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]
-      [theme (panels @active-panel)]))
+    [theme
+     (panels @active-panel)
+     {:navigation test-bar}]))
