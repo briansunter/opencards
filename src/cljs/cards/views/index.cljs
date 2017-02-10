@@ -23,5 +23,8 @@
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]
     [theme
-     (panels @active-panel)
-     {:navigation test-bar}]))
+     (panels @active-panel)]))
+
+(defn foo
+  [greeting & {:keys [bar bas]}]
+  (str greeting "bar " bar " " bas))

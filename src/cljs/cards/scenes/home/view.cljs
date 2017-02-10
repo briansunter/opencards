@@ -13,5 +13,7 @@
 
 (defn home-panel []
   (let [name (re-frame/subscribe [:name])]
-      [:div (str "Hello from " @name ". This is the Home Page.")
+    [:div
+     [home-panel-app-bar]
+     (str "Hello from " @name ". This is the Home Page.")
        [:div [:a {:href (path-for-page :cards)} "go to Cards Page"]]]))

@@ -79,6 +79,24 @@
     [app-bar-menu-button]))
 
 (s/def ::title string?)
+(s/def ::elem-type #{:div :a :href })
+(s/def ::props-elem (s/cat :type ::elem-type :props map? :elem string?))
+
+(s/def ::color #{"blue" "green" "red" "magenta" "lavender"})
+(s/def ::font-size (s/and pos-int? #(< 0 20)))
+(s/def ::draggable true?)
+(s/def ::rotate pos-int?)
+(s/def ::x pos-int?)
+
+(s/def ::style (s/keys :req-un [::color ::font-size ::draggable ::rotate ::x]))
+
+
+(s/def ::elem (s/cat :type #{:div :a}
+                     :props (s/? (s/keys :req-un [::style]))
+                     :elem string?))
+
+(s/def ::hiccup ::elem)
+
 (s/def ::left-element string?)
 (s/def ::right-element string?)
 
@@ -90,8 +108,8 @@
   [props]
   [ui/app-bar {:title (::title props)
                :z-depth 2
-               ;; :icon-element-left (r/as-element (::left-element props))
-               ;; :icon-element-right (r/as-element (::right-element props))
+                ;; :icon-element-left (r/as-element (::left-element props))
+                ;; :icon-element-right (r/as-element (::right-element props))
                :style {:position "fixed"
                        :top 0
                        :left 0}}])
@@ -100,10 +118,9 @@
   (main-app-bar (gen/generate (s/gen ::app-bar-props))))
 
 (defn theme
-  [content & {:keys [navigation]}]
+  [content]
     [ui/mui-theme-provider
      {:mui-theme (get-mui-theme
                   {:palette {:text-color (color :green600)}})}
      [:div {:style {:margin-top 100}}
-      [content]
-      [test-bar]]])
+      [content]]])
