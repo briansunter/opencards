@@ -1,8 +1,7 @@
 (ns cards.views.navigation
   (:require
    [cljs.spec :as s]
-   [clojure.test.check.generators]
-   [cljs.spec.impl.gen :as gen]
+   [clojure.test.check.generators :as gen]
    [cards.routes :refer [path-for-page]]
    [cljsjs.material-ui]
    [cljs-react-material-ui.core :refer [get-mui-theme color]]
@@ -33,6 +32,11 @@
                      :left-icon (ic/hardware-dock)}]
       [ui/divider]]]))
 
+(defn toggle-app-drawer-button
+  []
+  [ui/icon-button {:on-click #(re-frame/dispatch [:toggle-nav-drawer])}
+   [ic/navigation-menu {:style {:color "white"}}]])
+
 (defn add-deck-button
   []
   (let [enabled (re-frame/subscribe [:add-deck-button-enabled])
@@ -43,6 +47,7 @@
                      :disabled (not @enabled)
                      :style {:color "white"
                              :margin-top 5}}]))
+
 
 (defn add-card-button
   []
@@ -74,7 +79,7 @@
 (defn left-app-bar-button-for-page
   [page]
   (case page
-    :add-deck [app-bar-close-button {:href (path-for-page :decks)}]
+    :add-deck
     :add-card [app-bar-close-button {:href (path-for-page :cards)}]
     [app-bar-menu-button]))
 
@@ -88,34 +93,34 @@
 (s/def ::rotate pos-int?)
 (s/def ::x pos-int?)
 
-(s/def ::style (s/keys :req-un [::color ::font-size ::draggable ::rotate ::x]))
+(s/def ::style (s/keys :req-un [::color ::font-size]))
 
 
-(s/def ::elem (s/cat :type #{:div :a}
-                     :props (s/? (s/keys :req-un [::style]))
-                     :elem string?))
+(s/def ::elem (s/with-gen (s/cat :type #{:a}
+                               :props (s/? (s/keys :req-un [::style]))
+                               :elem vector?)
+                #(gen/return [:a "test"])))
 
 (s/def ::hiccup ::elem)
 
-(s/def ::left-element string?)
-(s/def ::right-element string?)
+(s/def ::left-element ::hiccup)
+(s/def ::right-element ::hiccup)
 
 (s/def ::app-bar-props (s/keys :req [::title ::left-element ::right-element]))
-(s/fdef main-app-bar
-   :args ::app-bar-props)
+
+(s/fdef main-app-bar :args ::app-bar-props)
 
 (defn main-app-bar
   [props]
+  [:div
+  [main-app-drawer]
   [ui/app-bar {:title (::title props)
                :z-depth 2
-                ;; :icon-element-left (r/as-element (::left-element props))
-                ;; :icon-element-right (r/as-element (::right-element props))
+               :icon-element-left (r/as-element (or (::left-element props) [toggle-app-drawer-button]))
+               :icon-element-right (r/as-element (::right-element props))
                :style {:position "fixed"
                        :top 0
-                       :left 0}}])
-
-(defn test-bar []
-  (main-app-bar (gen/generate (s/gen ::app-bar-props))))
+                       :left 0}}]])
 
 (defn theme
   [content]

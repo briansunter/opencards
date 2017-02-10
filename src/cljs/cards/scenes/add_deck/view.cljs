@@ -4,6 +4,7 @@
             [cljsjs.material-ui-chip-input]
             [cljs-react-material-ui.reagent :as ui]
             [cljs-react-material-ui.icons :as ic]
+            [cards.views.navigation :refer [main-app-bar] :as nav]
             [reagent.core :as r]))
 
 (def chip-input (r/adapt-react-class js/MaterialUIChipInput))
@@ -15,6 +16,8 @@
 (def paper-props {:z-depth 2
                   :style {:margin 10
                           :padding 10}})
+
+;; [app-bar-close-button {:href (path-for-page :decks)}]
 
 (defn deck-tags-input
   [props]
@@ -35,6 +38,7 @@
         description (re-frame/subscribe [:add-deck-description])
         matching-tags (re-frame/subscribe [:matching-tags])
         tags (re-frame/subscribe [:add-deck-tags])]
+    [main-app-bar {::nav/title "Add Deck"}]
     [ui/paper {:z-depth 2
                :style {:padding 10
                        :overflow "hidden"}}

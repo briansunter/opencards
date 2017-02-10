@@ -8,11 +8,9 @@
    [re-frame.core :as re-frame]
    [reagent.core :as r]))
 
-
 (def paper-props {:z-depth 3
                   :style {:margin 10
                           :padding 10}})
-
 (defn face-view
   [name hint value on-change]
   [ui/paper

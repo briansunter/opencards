@@ -6,7 +6,7 @@
    [cards.scenes.all-decks.view :refer [decks-panel]]
    [cards.scenes.add-deck.view :refer [add-deck-panel]]
    [cards.scenes.deck-cards.view :refer [cards-panel]]
-   [cards.views.navigation :refer [theme test-bar]]
+   [cards.views.navigation :refer [theme]]
    [re-frame.core :as re-frame]))
 
 (defn- panels [panel-name]
@@ -22,9 +22,4 @@
 
 (defn main-panel []
   (let [active-panel (re-frame/subscribe [:active-panel])]
-    [theme
-     (panels @active-panel)]))
-
-(defn foo
-  [greeting & {:keys [bar bas]}]
-  (str greeting "bar " bar " " bas))
+    [theme (panels @active-panel)]))
