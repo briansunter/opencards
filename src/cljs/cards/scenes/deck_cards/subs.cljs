@@ -13,3 +13,11 @@
      (if current-deck-id
        deck-cards
        cards))))
+
+(re-frame/reg-sub
+ :current-deck-title
+ (fn [db _]
+   (let [decks (:decks db)
+         current-deck-id (get-in db [:navigation :route :route-params :deck-id])
+         current-deck (first (filter #(= current-deck-id (:id %)) decks))]
+     (:title current-deck))))

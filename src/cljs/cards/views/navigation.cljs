@@ -23,7 +23,7 @@
                      :href (path-for-page :feed)
                      :left-icon (ic/communication-rss-feed)}]
       [ui/divider]
-      [ui/menu-item {:primary-text "Cards"
+      #_[ui/menu-item {:primary-text "Cards"
                      :href (path-for-page :cards)
                      :left-icon (ic/hardware-sim-card)}]
       [ui/divider]
@@ -37,16 +37,6 @@
   [ui/icon-button {:on-click #(re-frame/dispatch [:toggle-nav-drawer])}
    [ic/navigation-menu {:style {:color "white"}}]])
 
-(defn add-deck-button
-  []
-  (let [enabled (re-frame/subscribe [:add-deck-button-enabled])
-        add-deck-title (re-frame/subscribe [:add-deck-title])
-        add-deck-description (re-frame/subscribe [:add-deck-description])]
-    [ui/flat-button {:label "save"
-                     :on-click #(re-frame/dispatch [:add-deck @add-deck-title @add-deck-description])
-                     :disabled (not @enabled)
-                     :style {:color "white"
-                             :margin-top 5}}]))
 
 
 (defn add-card-button
@@ -59,13 +49,6 @@
                      :disabled (not @enabled)
                      :style {:color "white"
                              :margin-top 5}}]))
-
-(defn right-app-bar-button-for-page
-  [page]
-  (case page
-    :add-deck [add-deck-button]
-    :add-card [add-card-button]
-    [ui/icon-button]))
 
 (defn app-bar-close-button
   [props]

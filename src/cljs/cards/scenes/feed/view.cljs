@@ -1,6 +1,7 @@
 (ns cards.scenes.feed.view
   (:require
    [cards.routes :refer [path-for-page]]
+   [cards.views.navigation :refer [main-app-bar] :as nav]
    [cljsjs.material-ui]
    [cljs-react-material-ui.core :refer [color]]
    [cljsjs.material-ui-chip-input]
@@ -54,9 +55,14 @@
                                        :label "Follow Card"
                                        :style {:margin 10}}]]])
 
+(defn feed-app-bar
+  []
+  [main-app-bar #::nav{:title "Feed"}])
+
 (defn feed-panel []
   (let [cards (re-frame/subscribe [:all-cards])]
-    (fn []
+    [:div
+    [feed-app-bar]
       [ui/list
        (for [c @cards]
-         [suggested-card-feed-item (:front c) (:back c) (:tags c)])])))
+         [suggested-card-feed-item (:front c) (:back c) (:tags c)])]]))

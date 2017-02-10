@@ -4,8 +4,25 @@
             [cljsjs.material-ui-chip-input]
             [cljs-react-material-ui.reagent :as ui]
             [cljs-react-material-ui.icons :as ic]
-            [cards.views.navigation :refer [main-app-bar] :as nav]
+            [cards.views.navigation :as nav]
+            [cards.routes :refer [path-for-page]]
             [reagent.core :as r]))
+
+(defn add-deck-button
+  []
+  (let [enabled (re-frame/subscribe [:add-deck-button-enabled])
+        add-deck-title (re-frame/subscribe [:add-deck-title])
+        add-deck-description (re-frame/subscribe [:add-deck-description])]
+    [ui/flat-button {:label "save"
+                     :on-click #(re-frame/dispatch [:add-deck @add-deck-title @add-deck-description])
+                     :disabled (not @enabled)
+                     :style {:color "white"
+                             :margin-top 5}}]))
+(defn add-deck-app-bar
+  []
+  [nav/main-app-bar #::nav{:title "Add Deck"
+                           :left-element [nav/app-bar-close-button {:href (path-for-page :decks)}]
+                           :right-element [add-deck-button]}])
 
 (def chip-input (r/adapt-react-class js/MaterialUIChipInput))
 
@@ -17,7 +34,6 @@
                   :style {:margin 10
                           :padding 10}})
 
-;; [app-bar-close-button {:href (path-for-page :decks)}]
 
 (defn deck-tags-input
   [props]
@@ -38,7 +54,8 @@
         description (re-frame/subscribe [:add-deck-description])
         matching-tags (re-frame/subscribe [:matching-tags])
         tags (re-frame/subscribe [:add-deck-tags])]
-    [main-app-bar {::nav/title "Add Deck"}]
+    [:div
+    [add-deck-app-bar]
     [ui/paper {:z-depth 2
                :style {:padding 10
                        :overflow "hidden"}}
@@ -62,4 +79,4 @@
                        :on-add-chip #(re-frame/dispatch [:add-deck/add-chip %])
                        :on-delete-chip #(re-frame/dispatch [:add-deck/delete-chip %])}]
      [ui/raised-button {:primary true
-                        :label "upload cover image"}]]))
+                        :label "upload cover image"}]]]))

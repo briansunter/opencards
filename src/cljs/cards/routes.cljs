@@ -9,19 +9,23 @@
    [cards.utils :refer [map->query]]
    [bidi-tools.core :as bidi-tools]))
 
+(def deck-routes
+  {"" :decks
+   "/" {"" :decks
+        [:deck-id "/cards"] :deck-cards}
+   "/add" :add-deck})
+
 (def routes
   ["/" {"" :home
         "feed"  :feed
         "cards" {"" :cards
                  "/add" :add-card}
-        "decks/" {"" :decks
-                  [:deck-id "/cards"] :deck-cards
-                 "/add" :add-deck}}
+        "decks" deck-routes}
    true :not-found])
 
 
 (def path-for-page
-   (partial bidi/path-for routes))
+  (partial bidi/path-for routes))
 
 (defn set-page!
   [match]

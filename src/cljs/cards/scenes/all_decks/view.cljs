@@ -1,16 +1,23 @@
 (ns cards.scenes.all-decks.view
   (:require [re-frame.core :as re-frame]
             [cljsjs.material-ui]
+            [cards.views.navigation :refer [main-app-bar] :as nav]
             [cljs-react-material-ui.core :refer [get-mui-theme color]]
             [cljs-react-material-ui.reagent :as ui]
             [cljs-react-material-ui.icons :as ic]
+            [cards.views.navigation :refer [main-app-bar] :as nav]
             [reagent.core :as r]
             [cards.routes :refer [path-for-page]]))
+
+(defn decks-app-bar
+  []
+  [main-app-bar #::nav{:title "Decks"}])
 
 (defn decks-panel
   []
   (let [decks (re-frame/subscribe [:decks])]
     [:div
+     [decks-app-bar]
      [ui/floating-action-button {:secondary true
                                  :href (path-for-page :add-deck)
                                  :style {:bottom 0
